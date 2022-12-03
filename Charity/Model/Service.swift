@@ -95,10 +95,8 @@ class Service {
     
     func getListOfCharitys(completion: @escaping ([Charity]) -> ()) {
         Firestore.firestore().collection("charities").getDocuments { query, error in
-            print(1)
             if let error = error {
                 print(error.localizedDescription)
-                print(2)
             }
             var charitiesList = [Charity]()
             guard let docs = query?.documents else {
@@ -107,14 +105,13 @@ class Service {
             }
             for doc in docs {
                 let data = doc.data()
-                print(data["name"] as? String ?? "name")
                 let charity = Charity(
                     creatorID: data["creatorid"] as? String ?? "creatorID",
                     name: data["name"] as? String ?? "name",
                     description: data["description"] as? String ?? "description",
                     photoURL: data["photourl"] as? String,
-                    latitude: data["latitude"] as? Float,
-                    logitude: data["logitude"] as? Float,
+                    latitude: data["latitude"] as? Double,
+                    logitude: data["logitude"] as? Double,
                     art: data["art"] as? Bool ?? false,
                     children: data["children"] as? Bool ?? false,
                     education: data["education"] as? Bool ?? false,
@@ -127,5 +124,9 @@ class Service {
             }
             completion(charitiesList)
         }
+    }
+    
+    func getCharityCoordinates() {
+        
     }
 }

@@ -10,7 +10,7 @@ import FirebaseAuth
 
 final class MainTableViewController: UIViewController {
     
-    private var charities = [Charity]()
+    static var charities = [Charity]()
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -37,7 +37,7 @@ final class MainTableViewController: UIViewController {
     
     private func getCharities() {
         Service.shared.getListOfCharitys { [weak self] charities in
-            self?.charities = charities
+            MainTableViewController.charities = charities
             self?.tableView.reloadData()
         }
     }
@@ -78,12 +78,12 @@ extension MainTableViewController: UITableViewDelegate {
 
 extension MainTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return charities.count
+        return MainTableViewController.charities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CharitysTableViewCell.reuseIdentifier, for: indexPath) as? CharitysTableViewCell
-        cell?.configure(charity: charities[indexPath.row])
+        cell?.configure(charity: MainTableViewController.charities[indexPath.row])
         return cell ?? UITableViewCell()
     }
     

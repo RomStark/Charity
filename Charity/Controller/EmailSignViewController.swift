@@ -33,26 +33,27 @@ final class EmailSignViewController: UIViewController {
     private var nameTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = "введите имя"
+        textField.textColor = .black
         textField.layer.cornerRadius = 5
-        textField.borderStyle = .bezel
+        textField.borderStyle = .roundedRect
         return textField
     }()
     private var emailTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = "email"
-        textField.layer.cornerRadius = 5
-        textField.borderStyle = .bezel
+        textField.textColor = .black
+        textField.layer.cornerRadius = 10
+        textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
-        
-        
         return textField
     }()
     private var passwordTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = "password"
+        textField.textColor = .black
         textField.layer.cornerRadius = 5
-        textField.borderStyle = .bezel
+        textField.borderStyle = .roundedRect
 //        textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no

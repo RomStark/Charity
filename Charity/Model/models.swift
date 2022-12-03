@@ -16,8 +16,8 @@ struct Charity {
     let name: String
     let description: String
     let photoURL: String?
-    let latitude: Float?
-    let logitude: Float?
+    let latitude: Double?
+    let logitude: Double?
     let art: Bool
     let children: Bool
     let education: Bool
