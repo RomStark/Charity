@@ -34,3 +34,9 @@ enum SignAnswer: Error {
     case emailNotVerified
     case wrongPassword
 }
+
+struct User {
+    let name: String
+    let email: String
+    let photoURL: String?
+}

@@ -11,6 +11,8 @@ import FirebaseAuth
 import FirebaseFirestore
 
 class Service {
+    
+    let userdefault = UserDefaults.standard
     static let shared = Service()
     
     private func configureFB() -> Firestore {
@@ -21,15 +23,19 @@ class Service {
         return db
     }
     
-    func checkUser(email: String) async{
-//        do {
-//            let bd = await Firestore.firestore().collection("users").getDocuments()
-//
-//        } catch {
-//            print(1)
-//        }
-        
-        
+    func getUser(completion: @escaping (_ user: User) -> Void) {
+        let uid = userdefault.string(forKey: "uid")
+        Firestore.firestore().collection("users").document(uid ?? "").getDocument { document, error in
+            if let _ = error {
+                return
+            }
+            guard let document = document else {
+                return
+            }
+            let data = document.data()
+            let user = User(name: data?["name"] as? String ?? "", email: data?["email"] as? String ?? "", photoURL: data?["photourl"] as? String)
+            completion(user)
+        }
     }
     
     
@@ -64,7 +70,7 @@ class Service {
                        password: String,
                        completion: @escaping (SignAnswer) -> Void
     ) {
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
             if let error = error {
                 switch (error as NSError).code {
                 case AuthErrorCode.invalidEmail.rawValue:
@@ -77,6 +83,7 @@ class Service {
                     completion(.unknownError)
                 }
             }
+            self?.userdefault.set(result?.user.uid, forKey: "uid")
         }
     }
     
@@ -124,9 +131,5 @@ class Service {
             }
             completion(charitiesList)
         }
-    }
-    
-    func getCharityCoordinates() {
-        
     }
 }

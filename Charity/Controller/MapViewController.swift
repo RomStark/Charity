@@ -48,7 +48,7 @@ class MapViewController: UIViewController {
         map.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         map.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         map.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        map.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        map.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
         if CLLocationManager.locationServicesEnabled() {
             if selfCoordinate.longitude != 0 {

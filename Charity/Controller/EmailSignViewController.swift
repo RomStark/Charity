@@ -32,17 +32,28 @@ final class EmailSignViewController: UIViewController {
     }()
     private var nameTextField: UITextField = {
         var textField = UITextField()
-        textField.placeholder = "введите имя"
+        let placeholderText = NSAttributedString(string: "Введите имя", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textField.attributedPlaceholder = placeholderText
+        textField.borderStyle = .bezel
+        textField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
+        textField.layer.borderWidth = 1.0
+        textField.backgroundColor = .white
         textField.textColor = .black
-        textField.layer.cornerRadius = 5
+        textField.layer.cornerRadius = 10.0
         textField.borderStyle = .roundedRect
         return textField
     }()
     private var emailTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = "email"
+        let placeholderText = NSAttributedString(string: "email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textField.attributedPlaceholder = placeholderText
+        textField.borderStyle = .bezel
+        textField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
+        textField.layer.borderWidth = 1.0
+        textField.backgroundColor = .white
         textField.textColor = .black
-        textField.layer.cornerRadius = 10
+        textField.layer.cornerRadius = 10.0
         textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
@@ -50,9 +61,16 @@ final class EmailSignViewController: UIViewController {
     }()
     private var passwordTextField: UITextField = {
         var textField = UITextField()
-        textField.placeholder = "password"
+        textField.backgroundColor = .white
+
+        let placeholderText = NSAttributedString(string: "Введите пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textField.attributedPlaceholder = placeholderText
+        textField.borderStyle = .bezel
+        textField.backgroundColor = .white
+        textField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
+        textField.layer.borderWidth = 1.0
         textField.textColor = .black
-        textField.layer.cornerRadius = 5
+        textField.layer.cornerRadius = 10.0
         textField.borderStyle = .roundedRect
 //        textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none

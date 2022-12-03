@@ -18,6 +18,7 @@
 		004097BC2936DC4E00EB7622 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004097BB2936DC4E00EB7622 /* TabViewController.swift */; };
 		004097BE2936E3C400EB7622 /* CharitysTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004097BD2936E3C400EB7622 /* CharitysTableViewCell.swift */; };
 		004097C02936E78700EB7622 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004097BF2936E78700EB7622 /* Extensions.swift */; };
+		00B60415293B35470075F0B3 /* AccauntViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B60414293B35470075F0B3 /* AccauntViewController.swift */; };
 		00DF746128FB59E70015AEDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DF746028FB59E70015AEDD /* AppDelegate.swift */; };
 		00DF746328FB59E70015AEDD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DF746228FB59E70015AEDD /* SceneDelegate.swift */; };
 		00DF746528FB59E70015AEDD /* OpenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DF746428FB59E70015AEDD /* OpenViewController.swift */; };
@@ -61,6 +62,7 @@
 		004097BB2936DC4E00EB7622 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		004097BD2936E3C400EB7622 /* CharitysTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharitysTableViewCell.swift; sourceTree = "<group>"; };
 		004097BF2936E78700EB7622 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		00B60414293B35470075F0B3 /* AccauntViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccauntViewController.swift; sourceTree = "<group>"; };
 		00DF745D28FB59E70015AEDD /* Charity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Charity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00DF746028FB59E70015AEDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00DF746228FB59E70015AEDD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				004097B429353AD900EB7622 /* MainTableViewController.swift */,
 				004097B92936DB5A00EB7622 /* MapViewController.swift */,
 				004097BB2936DC4E00EB7622 /* TabViewController.swift */,
+				00B60414293B35470075F0B3 /* AccauntViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				002AEBB9292523F6005C7D0B /* Service.swift in Sources */,
 				00DF746528FB59E70015AEDD /* OpenViewController.swift in Sources */,
 				004097BA2936DB5A00EB7622 /* MapViewController.swift in Sources */,
+				00B60415293B35470075F0B3 /* AccauntViewController.swift in Sources */,
 				004097A329252A6800EB7622 /* models.swift in Sources */,
 				004097B529353AD900EB7622 /* MainTableViewController.swift in Sources */,
 				004097BC2936DC4E00EB7622 /* TabViewController.swift in Sources */,

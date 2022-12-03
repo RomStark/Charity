@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             else {
                 self?.showMainTable(scene)
             }
+            
         }
     }
     

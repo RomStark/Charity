@@ -15,8 +15,9 @@ class TabViewController: UITabBarController {
     
     func generateTabBar() {
         viewControllers = [
-            generateVC(viewcontroller: UINavigationController(rootViewController: MainTableViewController()), title: "таблица", image: UIImage(systemName: "arrow.counterclockwise")),
-            generateVC(viewcontroller: MapViewController(), title: "карта", image: UIImage(systemName: "arrow.counterclockwise"))
+            generateVC(viewcontroller: UINavigationController(rootViewController: MainTableViewController()), title: "таблица", image: UIImage(systemName: "list.bullet.circle.fill")),
+            generateVC(viewcontroller: MapViewController(), title: "карта", image: UIImage(systemName: "map.circle")),
+            generateVC(viewcontroller: AccauntViewController(), title: "профиль", image: UIImage(systemName: "person")),
         ]
     }
     
