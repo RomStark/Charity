@@ -30,49 +30,18 @@ final class EmailSignViewController: UIViewController {
         
         return button
     }()
-    private var nameTextField: UITextField = {
-        var textField = UITextField()
-        let placeholderText = NSAttributedString(string: "Введите имя", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        textField.attributedPlaceholder = placeholderText
-        textField.borderStyle = .bezel
-        textField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
-        textField.layer.borderWidth = 1.0
-        textField.backgroundColor = .white
-        textField.textColor = .black
-        textField.layer.cornerRadius = 10.0
-        textField.borderStyle = .roundedRect
-        return textField
+    private lazy var nameTextField: UITextField = {
+        let textFiled = self.generateTextField(title: "Введите имя")
+        return textFiled
     }()
-    private var emailTextField: UITextField = {
-        var textField = UITextField()
-        textField.placeholder = "email"
-        let placeholderText = NSAttributedString(string: "email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        textField.attributedPlaceholder = placeholderText
-        textField.borderStyle = .bezel
-        textField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
-        textField.layer.borderWidth = 1.0
-        textField.backgroundColor = .white
-        textField.textColor = .black
-        textField.layer.cornerRadius = 10.0
-        textField.borderStyle = .roundedRect
+    private lazy var emailTextField: UITextField = {
+        let textField = self.generateTextField(title: "email")
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         return textField
     }()
-    private var passwordTextField: UITextField = {
-        var textField = UITextField()
-        textField.backgroundColor = .white
-
-        let placeholderText = NSAttributedString(string: "Введите пароль", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        textField.attributedPlaceholder = placeholderText
-        textField.borderStyle = .bezel
-        textField.backgroundColor = .white
-        textField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
-        textField.layer.borderWidth = 1.0
-        textField.textColor = .black
-        textField.layer.cornerRadius = 10.0
-        textField.borderStyle = .roundedRect
-//        textField.isSecureTextEntry = true
+    private lazy var passwordTextField: UITextField = {
+        let textField = self.generateTextField(title: "Введите пароль")
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         return textField
@@ -93,6 +62,22 @@ final class EmailSignViewController: UIViewController {
         return button
         
     }()
+    
+    private lazy var stackView: UIStackView =  {
+        var stackView = UIStackView()
+        stackView.addArrangedSubviews(
+            [
+                nameTextField,
+                emailTextField,
+                passwordTextField,
+            ]
+        )
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,44 +85,42 @@ final class EmailSignViewController: UIViewController {
         self.view.backgroundColor = .white
         setupUI()
     }
+    
+    private func generateTextField(title: String) -> UITextField {
+        let textField = UITextField()
+        textField.backgroundColor = .white
+
+        let placeholderText = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textField.attributedPlaceholder = placeholderText
+        textField.borderStyle = .bezel
+        textField.backgroundColor = .white
+        textField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
+        textField.layer.borderWidth = 1.0
+        textField.textColor = .black
+        textField.layer.cornerRadius = 10.0
+        textField.borderStyle = .roundedRect
+//        textField.isSecureTextEntry = true
+        return textField
+    }
+    
     private func setupUI() {
-        setupNameTextField()
-        setupEmailTextField()
-        setupPasswordTextField()
+        setupStackView()
         setupSignButton()
         setupregauthButton()
         setupChangePasswordButton()
     }
     
-    private func setupNameTextField() {
-        self.view.addSubview(nameTextField)
-        nameTextField.translatesAutoresizingMaskIntoConstraints = false
-        nameTextField.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        nameTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
-        nameTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
-        nameTextField.widthAnchor.constraint(equalToConstant: 70).isActive = true
-    }
-    private func setupEmailTextField() {
-        self.view.addSubview(emailTextField)
-        emailTextField.translatesAutoresizingMaskIntoConstraints = false
-        emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 10).isActive = true
-        emailTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
-        emailTextField.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
-        emailTextField.widthAnchor.constraint(equalToConstant: 70).isActive = true
-    }
-    private func setupPasswordTextField() {
-        self.view.addSubview(passwordTextField)
-        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 10).isActive = true
-        passwordTextField.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
-        passwordTextField.widthAnchor.constraint(equalTo: emailTextField.widthAnchor).isActive = true
-        passwordTextField.heightAnchor.constraint(equalTo: emailTextField.heightAnchor).isActive = true
+    private func setupStackView() {
+        view.addSubview(stackView)
+        stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
     }
     private func setupSignButton() {
         signButton.addTarget(self, action: #selector(signButtonPressed), for: .touchUpInside)
         self.view.addSubview(signButton)
         signButton.translatesAutoresizingMaskIntoConstraints = false
-        signButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 10).isActive = true
+        signButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10).isActive = true
         signButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
         signButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
         signButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -197,7 +180,7 @@ final class EmailSignViewController: UIViewController {
                         }
                         
                     case .success(let uid):
-                        print(1)
+                        print(uid)
                         Service.shared.confirmEmail()
                     }
                 }

@@ -18,19 +18,10 @@ final class MainTableViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-
-    private var signOutButton: UIButton = {
-        var button = UIButton()
-        button.setTitle("Выйти", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray
-//        setupSignOutButton()
-        setupNavVC()
         setupTableView()
         getCharities()
     }
@@ -40,10 +31,6 @@ final class MainTableViewController: UIViewController {
             MainTableViewController.charities = charities
             self?.tableView.reloadData()
         }
-    }
-    
-    private func setupNavVC() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(signOutButtonTapped))
     }
     
     private func setupTableView() {
@@ -56,23 +43,15 @@ final class MainTableViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
-    private func setupSignOutButton() {
-        self.view.addSubview(signOutButton)
-        signOutButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 40).isActive = true
-        signOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        signOutButton.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc
-    private func signOutButtonTapped() {
-        do {
-            try? Auth.auth().signOut()
-        }
-    }
 }
 
 extension MainTableViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let charityVC = CharityViewController()
+        charityVC.configure(charity: MainTableViewController.charities[indexPath.row])
+        navigationController?.pushViewController(charityVC, animated: true)
+    }
     
 }
 
