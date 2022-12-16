@@ -7,10 +7,15 @@
 
 import UIKit
 import SnapKit
+import GoogleSignIn
 
 
-
-final class ViewController: UIViewController {
+final class OpenViewController: UIViewController {
+    
+//    private let googleButton: GIDSignInButton = GIDSignInButton()
+    let signInConfig = GIDConfiguration(clientID: "749688238426-o6ol52m3pt0b0ngf6b4jm5qkt4efhqri.apps.googleusercontent.com")
+    
+    private let userdefault = UserDefaults()
     
     private lazy var emailSignButton: UIButton = {
         let button = UIButton()
@@ -19,18 +24,17 @@ final class ViewController: UIViewController {
         button.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)
         button.layer.borderWidth = 1.0
         button.backgroundColor = .red
-        button.addTarget(self, action: #selector(emailButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(emailButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private lazy var googleSignButton: UIButton = {
-        let button = UIButton()
+    private lazy var googleSignButton: GIDSignInButton = {
+        let button = GIDSignInButton()
         button.backgroundColor = .white
-        button.setTitleColor(UIColor(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
         button.layer.cornerRadius = 20.0
         button.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)
         button.layer.borderWidth = 1
-        button.setTitle("Sign in with Google", for: .normal)
+        button.addTarget(self, action: #selector(googleButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -77,7 +81,22 @@ final class ViewController: UIViewController {
         }
     }
     
-    @objc private func emailButtonPressed() {
-        self.navigationController?.pushViewController(EmailSignViewController(), animated: true)
+    @objc private func googleButtonTapped() {
+        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { [weak self] user, error in
+            guard error == nil else { return }
+            let tabBarVC = TabViewController()
+            self?.navigationController?.setViewControllers([tabBarVC], animated: true)
+//            self?.navigationController?.pushViewController(MainTableViewController(), animated: true)
+            self?.userdefault.set(user?.userID, forKey: "uid")
+          }
+    }
+    
+    @objc private func emailButtonTapped() {
+        let emailVC = EmailSignViewController()
+        self.navigationController?.pushViewController(emailVC, animated: true)
     }
 }
+
+
+
+

@@ -9,6 +9,8 @@ import UIKit
 
 
 final class EmailSignViewController: UIViewController {
+    
+    
     private let shared = Service.shared
     private var signUp: Bool = true{
         willSet {
@@ -164,7 +166,6 @@ final class EmailSignViewController: UIViewController {
         let password = passwordTextField.text ?? ""
         let name = nameTextField.text ?? ""
         let email = emailTextField.text ?? ""
-        
         if signUp {
             if password.isEmpty || name.isEmpty || email.isEmpty {
                 showAlert(title: "Ошибка", message: "Заполните все поля")
@@ -189,25 +190,30 @@ final class EmailSignViewController: UIViewController {
             if password.isEmpty || email.isEmpty {
                 showAlert(title: "Ошибка", message: "Заполните все поля")
             } else {
-                shared.authWithEmail(email: email, password: password) { [weak self] Ans in
-                    switch Ans {
+                print(1213)
+                shared.authWithEmail(email: email, password: password) { [weak self] ans in
+                    print(121312)
+                    guard let self else { return }
+                    switch ans {
                     case .emailNotExist:
-                        self?.showAlert(title: "Ошибка", message: "Аккаунта с такой почтой нет")
+                        self.showAlert(title: "Ошибка", message: "Аккаунта с такой почтой нет")
                     case .emailNotVerified:
-                        self?.showAlert(title: "Ошибка", message: "Ваша почта не верифицирована, мы отправили письмо с верификацией на Вашу почту")
-                        self?.shared.confirmEmail()
+                        self.showAlert(title: "Ошибка", message: "Ваша почта не верифицирована, мы отправили письмо с верификацией на Вашу почту")
+                        self.shared.confirmEmail()
                     case .wrongPassword:
-                        self?.showAlert(title: "Ошибка", message: "Вы ввели неправльный пароль")
+                        self.showAlert(title: "Ошибка", message: "Вы ввели неправльный пароль")
                     default:
-                        self?.showAlert(title: "Неизвестная ошибка", message: "Что-то пошло не так, попробуйте еще раз")
+                        self.showAlert(title: "Неизвестная ошибка", message: "Что-то пошло не так, попробуйте еще раз")
                     }
+                    let tabBarVC = TabViewController()
+                    self.navigationController?.setViewControllers([tabBarVC], animated: true)
+                    
                 }
             }
         }
     }
     
-    @objc
-    private func regauthButtonTapped() {
+    @objc private func regauthButtonTapped() {
         signUp = !signUp
     }
     

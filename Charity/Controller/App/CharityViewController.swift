@@ -83,9 +83,9 @@ class CharityViewController: UIViewController {
         qiwiLinkLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
     }
     
-    func configure(charity: Charity) {
+    func configure(charity: CharityClass) {
         self.nameLabel.text = charity.name
-        self.descriptionLabel.text = charity.description
+        self.descriptionLabel.text = charity.descript
         loadPhoto(urlString: charity.photoURL ?? "")
     }
     

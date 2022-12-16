@@ -6,18 +6,38 @@
 //
 
 import Foundation
+import MapKit
 
 struct answer {
     var UID: String
 }
 
-struct Charity {
+final class CharityClass: NSObject, MKAnnotation {
+    var coordinate: CLLocationCoordinate2D
+    
+    var name: String
+    var descript: String
+    let photoURL: String?
+    let qiwiURL: String?
+    var title: String? {
+        return name
+    }
+    init(coordinate: CLLocationCoordinate2D, name: String, description: String, photoURL: String?, qiwiURL: String?) {
+        self.coordinate = coordinate
+        self.name = name
+        self.descript = description
+        self.photoURL = photoURL
+        self.qiwiURL = qiwiURL
+    }
+}
+
+struct Charity: Codable {
     let creatorID: String
     let name: String
     let description: String
     let photoURL: String?
     let latitude: Double?
-    let logitude: Double?
+    let longitude: Double?
     let art: Bool
     let children: Bool
     let education: Bool

@@ -7,10 +7,11 @@
 
 import UIKit
 import FirebaseAuth
+import CoreLocation
 
 final class MainTableViewController: UIViewController {
     
-    static var charities = [Charity]()
+    static var charities = [CharityClass]()
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -22,13 +23,25 @@ final class MainTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.counterclockwise"), style: .plain, target: self, action: #selector(refreshData))
+
         setupTableView()
+        getCharities()
+    }
+    
+    @objc private func refreshData() {
         getCharities()
     }
     
     private func getCharities() {
         Service.shared.getListOfCharitys { [weak self] charities in
-            MainTableViewController.charities = charities
+            MainTableViewController.charities = charities.compactMap {
+                CharityClass(coordinate: CLLocationCoordinate2D(latitude: $0.latitude ?? 0.0, longitude: $0.longitude ?? 0),
+                             name: $0.name,
+                             description: $0.description,
+                             photoURL: $0.photoURL,
+                             qiwiURL: $0.qiwiURL)
+                            }
             self?.tableView.reloadData()
         }
     }
@@ -36,7 +49,7 @@ final class MainTableViewController: UIViewController {
     private func setupTableView() {
         tableView.register(CharitysTableViewCell.self, forCellReuseIdentifier: CharitysTableViewCell.reuseIdentifier)
         view.addSubview(tableView)
-        tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true

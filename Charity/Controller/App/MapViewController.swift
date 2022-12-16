@@ -18,6 +18,7 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        map.delegate = self
         setupMap()
         setupLocationManager()
     }
@@ -56,16 +57,65 @@ class MapViewController: UIViewController {
         let viewRegion = MKCoordinateRegion(center: noLocation, latitudinalMeters: 200, longitudinalMeters: 200)
         map.setRegion(viewRegion, animated: false)
         for charity in MainTableViewController.charities {
-            guard let logitude = charity.logitude,
-                  let latitude = charity.latitude else {
+            if charity.coordinate.longitude == 0 {
                 continue
             }
-            let charityAnnotation = MKPointAnnotation()
-            charityAnnotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude),
-                                                           longitude: CLLocationDegrees(logitude))
-            charityAnnotation.title = charity.name
-            map.addAnnotation(charityAnnotation)
+            map.addAnnotation(charity)
         }
+    }
+}
+
+extension MapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is CharityClass else { return nil}
+        var viewMarker: MKMarkerAnnotationView
+        let idView = "marker"
+        if let view = map.dequeueReusableAnnotationView(withIdentifier: idView) as? MKMarkerAnnotationView {
+            view.annotation = annotation
+            viewMarker = view
+        } else {
+            viewMarker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: idView)
+            viewMarker.canShowCallout = true
+            viewMarker.calloutOffset = CGPoint(x: 0, y: 5)
+            viewMarker.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+        }
+        
+        return viewMarker
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let coordinate = locationManager.location?.coordinate else { return }
+        
+        map.removeOverlays(map.overlays)
+        
+        let charity = view.annotation as! CharityClass
+        let startPoint = MKPlacemark(coordinate: coordinate)
+        let endPoint = MKPlacemark(coordinate: charity.coordinate)
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: startPoint)
+        request.destination = MKMapItem(placemark: endPoint)
+        request.transportType = .automobile
+        
+        let direction = MKDirections(request: request)
+        
+        direction.calculate { [weak self] response, error in
+            
+            guard let self else { return }
+            
+            guard let response = response else { return }
+            
+            for route in response.routes {
+                self.map.addOverlay(route.polyline)
+            }
+        }
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .blue
+        renderer.lineWidth = 4
+        return renderer
     }
 }
 

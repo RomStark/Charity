@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import GoogleSignIn
 
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -16,29 +17,58 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
+        let userDefaults = UserDefaults()
+        var flag = false
+        
+//        if Auth.auth().currentUser != nil {
+//            self.showMainTable(scene)
+//            userDefaults.set(Auth.auth().currentUser?.uid, forKey: "uid")
+//        } else if GIDSignIn.sharedInstance.currentUser != nil {
+//            self.showMainTable(scene)
+//            userDefaults.set(GIDSignIn.sharedInstance.currentUser?.userID, forKey: "uid")
+//        } else {
+//            showOpenView(scene)
+//        }
+        
         Auth.auth().addStateDidChangeListener { [weak self]  auth, user in
+            guard let self else { return }
             if user == nil {
-                self?.showOpenView(scene)
+                flag = true
+                self.showOpenView(scene)
             }
             else {
-                self?.showMainTable(scene)
+                flag = false
+                self.showMainTable(scene)
             }
-            
         }
+//
+//        GIDSignIn.sharedInstance.restorePreviousSignIn { [weak self] user, error in
+//            if error != nil || user == nil {
+//                flag = true
+//            } else {
+//                flag = false
+//                userDefaults.set("google", forKey: "signInMethod")
+//                self?.showMainTable(scene)
+//            }
+//          }
+//
+//        if flag {
+//            showOpenView(scene)
+//        }
     }
     
     private func showMainTable(_ scene: UIScene) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let tabBarVC = TabViewController()
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = tabBarVC
+        window.rootViewController = UINavigationController(rootViewController: tabBarVC) 
         self.window = window
         window.makeKeyAndVisible()
     }
     
     private func showOpenView(_ scene: UIScene) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let navController = UINavigationController(rootViewController: ViewController())
+        let navController = UINavigationController(rootViewController: OpenViewController())
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = navController
         self.window = window

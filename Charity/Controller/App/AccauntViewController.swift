@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import GoogleSignIn
 
 class AccauntViewController: UIViewController {
     
@@ -17,6 +18,13 @@ class AccauntViewController: UIViewController {
         var image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
+    }()
+    
+    private var addCharityButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Добавить свою благотворительность", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private var nameLabel: UILabel = {
@@ -58,6 +66,7 @@ class AccauntViewController: UIViewController {
         setupPhoto()
         setupStackView()
         getUserInfo()
+        setupAddCharityButton()
         setupLogOutButton()
     }
     
@@ -75,18 +84,39 @@ class AccauntViewController: UIViewController {
         stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20.0).isActive = true
     }
     
+    private func setupAddCharityButton() {
+        view.addSubview(addCharityButton)
+        addCharityButton.topAnchor.constraint(equalTo: photo.bottomAnchor, constant: 30).isActive = true
+        addCharityButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        addCharityButton.addTarget(self, action: #selector(addCharityButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func addCharityButtonTapped() {
+        
+        let vc = AddCharityViewController()
+        self.navigationController?.pushViewController(AddCharityViewController(), animated: true)
+    }
+    
     private func setupLogOutButton() {
         view.addSubview(logOutButton)
-        logOutButton.topAnchor.constraint(equalTo: photo.bottomAnchor, constant: 30).isActive = true
+        logOutButton.topAnchor.constraint(equalTo: addCharityButton.bottomAnchor, constant: 30).isActive = true
         logOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         logOutButton.addTarget(self, action: #selector(logOutBuutonTapped), for: .touchUpInside)
     }
     
+    
     @objc private func logOutBuutonTapped() {
+        let signInMethod = userDefaults.string(forKey: "signInMethod")
+//        GIDSignIn.sharedInstance.signOut()
+        userDefaults.set("", forKey: "uid")
         do {
             try? Auth.auth().signOut()
             userDefaults.set("", forKey: "uid")
         }
+        userDefaults.set("", forKey: "uid")
+//        self.navigationController?.setViewControllers([OpenViewController()], animated: true)
+//        print(21432334)
+        
     }
     
     private func getUserInfo() {

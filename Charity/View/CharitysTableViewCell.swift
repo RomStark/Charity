@@ -78,9 +78,9 @@ class CharitysTableViewCell: UITableViewCell {
     
     }
     
-    func configure(charity: Charity) {
+    func configure(charity: CharityClass) {
         self.titleLabel.text = charity.name
-        self.descriptionLabel.text = charity.description
+        self.descriptionLabel.text = charity.descript
         loadPhoto(urlString: charity.photoURL ?? "")
     }
     
